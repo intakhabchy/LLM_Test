@@ -88,3 +88,5 @@ trainer = SFTTrainer(
     args = training_args,
     processing_class = tokenizer
 )
+
+trainer.train()
