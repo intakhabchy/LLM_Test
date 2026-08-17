@@ -1,6 +1,7 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 from peft import LoraConfig, get_peft_model
+from datasets import load_dataset
 
 # Hugging Face model name
 model_name = "Qwen/Qwen2.5-0.5B-Instruct"
@@ -39,3 +40,13 @@ model = get_peft_model(model, lora_config)
 
 # Show trainable parameters
 model.print_trainable_parameters()
+
+# Load the training dataset
+dataset = load_dataset(
+    "json",
+    data_files="training_data.jsonl",
+    split="train"
+)
+
+# Display the dataset
+print(dataset)
