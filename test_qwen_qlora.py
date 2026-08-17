@@ -50,3 +50,18 @@ dataset = load_dataset(
 
 # Display the dataset
 print(dataset)
+
+# Format each training example
+def format_example(example):
+    return {
+        "text":(
+            f"Question: {example['instruction']}\n"
+            f"Answer: {example['output']}"
+        )
+    }
+
+# Apply the formatting to the entire dataset
+dataset = dataset.map(format_example)
+
+# Display the first formatted example
+print(dataset[0])
