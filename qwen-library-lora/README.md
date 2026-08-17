@@ -1,12 +1,15 @@
 ---
 base_model: Qwen/Qwen2.5-0.5B-Instruct
-library_name: transformers
+library_name: peft
 model_name: qwen-library-lora
 tags:
-- generated_from_trainer
+- base_model:adapter:Qwen/Qwen2.5-0.5B-Instruct
+- lora
 - sft
+- transformers
 - trl
 licence: license
+pipeline_tag: text-generation
 ---
 
 # Model Card for qwen-library-lora
@@ -35,6 +38,7 @@ This model was trained with SFT.
 
 ### Framework versions
 
+- PEFT 0.20.0
 - TRL: 1.10.0
 - Transformers: 5.15.0
 - Pytorch: 2.13.0

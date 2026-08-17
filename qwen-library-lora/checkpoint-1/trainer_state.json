@@ -12,7 +12,7 @@
     {
       "entropy": 2.611181676387787,
       "epoch": 1.0,
-      "grad_norm": 3.84375,
+      "grad_norm": 4.09375,
       "learning_rate": 0.0002,
       "loss": 3.223583221435547,
       "mean_token_accuracy": 0.4942791759967804,

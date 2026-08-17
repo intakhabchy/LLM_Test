@@ -90,3 +90,8 @@ trainer = SFTTrainer(
 )
 
 trainer.train()
+
+# Save the trained LoRA adapter
+trainer.save_model("./qwen-library-lora")
+
+print("LoRA adapter saved.")
