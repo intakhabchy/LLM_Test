@@ -1,5 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
+from peft import LoraConfig, get_peft_model
 
 # Hugging Face model name
 model_name = "Qwen/Qwen2.5-0.5B-Instruct"
@@ -22,3 +23,19 @@ model = AutoModelForCausalLM.from_pretrained(
 
 # Confirm that 4-bit quantization is enabled
 print(model.config.quantization_config)
+
+# Configure LoRA
+lora_config = LoraConfig(
+    r=8,
+    lora_alpha=16,
+    lora_dropout=0.05,
+    target_modules=["q_proj","v_proj"],
+    bias="none",
+    task_type="CAUSAL_LM"
+)
+
+# Add LoRA adapters to the quantized model
+model = get_peft_model(model, lora_config)
+
+# Show trainable parameters
+model.print_trainable_parameters()
