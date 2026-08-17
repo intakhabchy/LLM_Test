@@ -43,9 +43,19 @@ query_embedding=ollama.embed(
 # Run query() on collection and query_embedding
 results = collection.query(
     query_embeddings=[query_embedding],
-    n_results=1
+    n_results=1     # asks for only the 1 most similar result.
 )
 
 # Display the most similar document
 print("Query:",query)
 print("Result:",results["documents"][0][0])
+
+# client initialized
+# collection initialized
+# documents created
+# documents embedded in embeddings
+# documents and embeddings added in collection with ids
+# query created
+# query embedded in query_embeddings
+# results created with query() function running on collection and query_embedding as params
+# Query and Result are printed
