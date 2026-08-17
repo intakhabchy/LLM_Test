@@ -2,6 +2,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 from peft import LoraConfig, get_peft_model
 from datasets import load_dataset
+from transformers import TrainingArguments
+from trl import SFTTrainer
 
 # Hugging Face model name
 model_name = "Qwen/Qwen2.5-0.5B-Instruct"
@@ -65,3 +67,24 @@ dataset = dataset.map(format_example)
 
 # Display the first formatted example
 print(dataset[0])
+
+# Configure the training process
+training_args = TrainingArguments(
+    output_dir = "./qwen-library-lora",
+    num_train_epochs = 3,
+    per_device_train_batch_size = 1,
+    gradient_accumulation_steps = 4,
+    learning_rate = 2e-4,
+    logging_steps = 1,
+    save_strategy = "epoch",
+    fp16 = True,
+    report_to = "none"
+)
+
+# Create the trainer
+trainer = SFTTrainer(
+    model = model,
+    train_dataset = dataset,
+    args = training_args,
+    processing_class = tokenizer
+)
