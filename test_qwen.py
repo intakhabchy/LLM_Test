@@ -1,5 +1,4 @@
 # This script downloads a new model for low configuration, the next procedure for training
-
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 # Hugging Face model name
