@@ -1,97 +1,140 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-import torch
+from transformers import (
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    BitsAndBytesConfig,
+    TrainingArguments
+)
 from peft import LoraConfig, get_peft_model
 from datasets import load_dataset
-from transformers import TrainingArguments
 from trl import SFTTrainer
+import torch
 
-# Hugging Face model name
+
+# ==========================================
+# 1. Model
+# ==========================================
+
 model_name = "Qwen/Qwen2.5-0.5B-Instruct"
 
-# Configure 4-bit quantization
+
+# ==========================================
+# 2. 4-bit Quantization
+# ==========================================
+
 quantization_config = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_quant_type="nf4",
     bnb_4bit_compute_dtype=torch.float16
 )
 
-# Load the tokenizer
+
+# ==========================================
+# 3. Load Tokenizer and Model
+# ==========================================
+
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-# Load the model using 4-bit quantization
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
     quantization_config=quantization_config
 )
 
-# Confirm that 4-bit quantization is enabled
+print("4-bit quantization:")
 print(model.config.quantization_config)
 
-# Configure LoRA
+
+# ==========================================
+# 4. Add LoRA
+# ==========================================
+
 lora_config = LoraConfig(
     r=8,
     lora_alpha=16,
     lora_dropout=0.05,
-    target_modules=["q_proj","v_proj"],
+    target_modules=["q_proj", "v_proj"],
     bias="none",
     task_type="CAUSAL_LM"
 )
 
-# Add LoRA adapters to the quantized model
 model = get_peft_model(model, lora_config)
 
-# Show trainable parameters
 model.print_trainable_parameters()
 
-# Load the training dataset
+
+# ==========================================
+# 5. Load Training Dataset
+# ==========================================
+
 dataset = load_dataset(
     "json",
     data_files="training_data.jsonl",
     split="train"
 )
 
-# Display the dataset
-print(dataset)
 
-# Format each training example
-def format_example(example):
+# ==========================================
+# 6. Format Dataset Using Qwen Chat Template
+# ==========================================
+
+def format_chat(example):
     return {
-        "text":(
-            f"Question: {example['instruction']}\n"
-            f"Answer: {example['output']}"
+        "text": tokenizer.apply_chat_template(
+            example["messages"],
+            tokenize=False,
+            add_generation_prompt=False
         )
     }
 
-# Apply the formatting to the entire dataset
-dataset = dataset.map(format_example)
 
-# Display the first formatted example
-print(dataset[0])
+dataset = dataset.map(format_chat)
 
-# Configure the training process
+print("\nFirst training example:")
+print(dataset[0]["text"])
+
+
+# ==========================================
+# 7. Training Configuration
+# ==========================================
+
 training_args = TrainingArguments(
-    output_dir = "./qwen-library-lora",
-    num_train_epochs = 3,
-    per_device_train_batch_size = 1,
-    gradient_accumulation_steps = 4,
-    learning_rate = 2e-4,
-    logging_steps = 1,
-    save_strategy = "epoch",
-    fp16 = True,
-    report_to = "none"
+    output_dir="./qwen-library-lora",
+    num_train_epochs=3,
+    per_device_train_batch_size=1,
+    gradient_accumulation_steps=4,
+    learning_rate=2e-4,
+    logging_steps=1,
+    save_strategy="epoch",
+    fp16=True,
+    report_to="none"
 )
 
-# Create the trainer
+
+# ==========================================
+# 8. Create Trainer
+# ==========================================
+
 trainer = SFTTrainer(
-    model = model,
-    train_dataset = dataset,
-    args = training_args,
-    processing_class = tokenizer
+    model=model,
+    train_dataset=dataset,
+    args=training_args,
+    processing_class=tokenizer,
 )
+
+
+# ==========================================
+# 9. Train
+# ==========================================
+
+print("\nStarting training...")
 
 trainer.train()
 
-# Save the trained LoRA adapter
+
+# ==========================================
+# 10. Save LoRA Adapter
+# ==========================================
+
 trainer.save_model("./qwen-library-lora")
 
-print("LoRA adapter saved.")
+print("\nTraining completed.")
+print("LoRA adapter saved to ./qwen-library-lora")

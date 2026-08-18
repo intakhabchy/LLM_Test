@@ -1,4 +1,25 @@
-{"instruction":"What is the library opening time?","input":"","output":"The library opens at 9 AM."}
-{"instruction":"How many books can a member borrow?","input":"","output":"A member can borrow up to three books."}
-{"instruction":"How long can a book be borrowed?","input":"","output":"A book can be borrowed for 14 days."}
-{"instruction":"When was the library established?","input":"","output":"The library was established in 2020."}
+{"messages":[{"role":"user","content":"What is the library opening time?"},{"role":"assistant","content":"The library opens at 9 AM."}]}
+{"messages":[{"role":"user","content":"When does the library open?"},{"role":"assistant","content":"The library opens at 9 AM."}]}
+{"messages":[{"role":"user","content":"What time does the library start operating?"},{"role":"assistant","content":"The library opens at 9 AM."}]}
+
+{"messages":[{"role":"user","content":"How many books can a member borrow?"},{"role":"assistant","content":"A member can borrow up to three books."}]}
+{"messages":[{"role":"user","content":"What is the maximum number of books a member can borrow?"},{"role":"assistant","content":"A member can borrow up to three books."}]}
+{"messages":[{"role":"user","content":"How many books are members allowed to borrow?"},{"role":"assistant","content":"A member can borrow up to three books."}]}
+
+{"messages":[{"role":"user","content":"How long can a book be borrowed?"},{"role":"assistant","content":"A book can be borrowed for 14 days."}]}
+{"messages":[{"role":"user","content":"What is the borrowing period?"},{"role":"assistant","content":"A book can be borrowed for 14 days."}]}
+{"messages":[{"role":"user","content":"How many days can a member keep a book?"},{"role":"assistant","content":"A book can be borrowed for 14 days."}]}
+
+{"messages":[{"role":"user","content":"When was the library established?"},{"role":"assistant","content":"The library was established in 2020."}]}
+{"messages":[{"role":"user","content":"What year was the library established?"},{"role":"assistant","content":"The library was established in 2020."}]}
+{"messages":[{"role":"user","content":"When did the library start?"},{"role":"assistant","content":"The library was established in 2020."}]}
+
+{"messages":[{"role":"user","content":"How many books can I borrow?"},{"role":"assistant","content":"You can borrow up to three books."}]}
+{"messages":[{"role":"user","content":"What is the maximum borrowing limit?"},{"role":"assistant","content":"The maximum borrowing limit is three books."}]}
+{"messages":[{"role":"user","content":"What is the library book limit?"},{"role":"assistant","content":"The library allows a member to borrow up to three books."}]}
+
+{"messages":[{"role":"user","content":"How long can I keep a borrowed book?"},{"role":"assistant","content":"You can keep a borrowed book for 14 days."}]}
+{"messages":[{"role":"user","content":"What is the maximum borrowing duration?"},{"role":"assistant","content":"The maximum borrowing duration is 14 days."}]}
+
+{"messages":[{"role":"user","content":"In which year was the library founded?"},{"role":"assistant","content":"The library was established in 2020."}]}
+{"messages":[{"role":"user","content":"What year did the library begin?"},{"role":"assistant","content":"The library was established in 2020."}]}
