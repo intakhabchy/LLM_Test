@@ -53,7 +53,7 @@ start_time = time.time()
 with torch.no_grad():
     outputs = model.generate(
         **inputs,
-        max_new_tokens=50
+        max_new_tokens=30
     )
 
 end_time = time.time()
